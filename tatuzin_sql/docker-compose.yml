@@ -1,0 +1,29 @@
+version: "3"
+services:
+  php:
+    image: php:8.1-fpm
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    volumes:
+      - ./lesson/php:/var/lesson
+  nginx:
+    image: nginx:1.23
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx/config/default.conf:/etc/nginx/conf.d/default.conf
+      - ./lesson/php:/var/lesson
+    depends_on:
+      - php
+  mysql:
+    image: mysql:8.0.1
+    platform: linux/amd64
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./lesson/sql:/var/sql-lesson/
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - 3306:80
