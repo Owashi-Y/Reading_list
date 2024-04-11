@@ -230,5 +230,8 @@ $stm->execute(); */
         </tr>
         <?php endforeach;?>
     </table>
+
+    <h2>CHECK制約で複数の列の条件関係を定義する</h2>
+    
 </body>
 </html>
